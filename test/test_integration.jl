@@ -10,7 +10,8 @@ using Test
     @testset "Exported Functions" begin
         # Test that all exported functions are accessible
         
-        # Shape exports
+        # Geometry exports
+        @test isdefined(JHD5t, :GeometricShape)
         @test isdefined(JHD5t, :Cylinder)
         @test isdefined(JHD5t, :CylinderShell)
         @test isdefined(JHD5t, :Box)

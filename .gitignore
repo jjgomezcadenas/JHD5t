@@ -1,0 +1,4 @@
+scripts/detector_plots/
+scripts/hd5t_detector_summary.csv
+scripts/hd5t_plots/
+scripts/selection_efficiency.csv

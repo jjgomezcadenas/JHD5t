@@ -15,31 +15,10 @@ import Unitful:
 
 import PhysicalConstants.CODATA2018: N_A
 
+# Include materials data
+include("MaterialsData.jl")
 
-A_BI214_316Ti   =    1.0    * mBq/kg
-A_TL208_316Ti   =    0.4   * mBq/kg
-A_BI214_CU_LIM  =   12      * μBq/kg
-A_TL208_CU_LIM  =    1.4    * μBq/kg
-A_BI214_CU_BEST =    3      * μBq/kg
-A_TL208_CU_BEST =    1.4    * μBq/kg
-A_BI214_PB      =  370      * μBq/kg
-A_TL208_PB      =   73      * μBq/kg
-A_BI214_Poly    =   62      * μBq/kg
-A_TL208_Poly    =    8      * μBq/kg
 
-rhoxe = Dict("rho_2020" => 124.3 * kg/m^3, 
-               "rho_3020" => 203.35 * kg/m^3,
-               "rho_1520" =>  89.9 * kg/m^3,
-               "rho_1020" =>   58.0 * kg/m^3,
-               "rho_0520" =>   30.0 * kg/m^3,
-               "rho_0720" =>   40.0 * kg/m^3,
-               "rho_0920" =>   50.0 * kg/m^3)
-
-function rhoxegr(rhoxe_dict)
-    return Dict(k => uconvert(g/cm^3, v) for (k, v) in rhoxe_dict)
-end
-
-rhoxe_gcm3 = rhoxegr(rhoxe)
 """
 Simple representation of a physical material
 
@@ -113,3 +92,31 @@ end
 function RadioactiveMaterial(gxe::GXe, a_bi214=0.0*Bq/kg, a_tl208=0.0*Bq/kg)
     RadioactiveMaterial(gxe.xe.ρ, gxe.xe.λ, a_bi214, a_tl208)
 end
+
+### Some materials:
+
+# Helper function to create RadioactiveMaterial from material data
+function create_material(name::String)
+    if haskey(RHO, name) && haskey(MU, name)
+        ρ = RHO[name]
+        μovrρ = MU[name]
+        μ = μovrρ * ρ
+        λ = 1.0/μ
+        
+        # Get radioactivity data, default to zero if not found
+        a_bi214 = get(BI214, name, 0.0*Bq/kg)
+        a_tl208 = get(TL208, name, 0.0*Bq/kg)
+        
+        return RadioactiveMaterial(ρ, λ, a_bi214, a_tl208)
+    else
+        error("Material $name not found in data")
+    end
+end
+
+# Pre-defined materials using data from MaterialsData.jl
+fe316ti = create_material("Fe316Ti")  # Stainless steel 316Ti
+copper = create_material("Cu")
+ptfe = create_material("PTFE")
+titanium = create_material("Ti")
+lead = create_material("Pb")
+    

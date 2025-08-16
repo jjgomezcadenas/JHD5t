@@ -34,7 +34,7 @@ using Unitful
         
         # Test delegated methods
         @test volume(phys_cyl) == volume(cyl)
-        @test surface(phys_cyl) == surface(cyl)
+        @test geometric_surface(phys_cyl) == geometric_surface(cyl)
         @test endcap_surface(phys_cyl) == endcap_surface(cyl)
         
         # Test mass calculation

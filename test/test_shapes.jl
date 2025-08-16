@@ -15,7 +15,7 @@ using Unitful
         
         # Test surface calculation (lateral surface)
         expected_surface = 2π * 10.0u"cm" * 20.0u"cm"
-        @test surface(cyl) ≈ expected_surface
+        @test geometric_surface(cyl) ≈ expected_surface
         
         # Test endcap surface
         expected_endcap = π * (10.0u"cm")^2
@@ -60,5 +60,9 @@ using Unitful
         @test box.ymax == 20.0u"cm"
         @test box.zmin == 0.0u"cm"
         @test box.zmax == 30.0u"cm"
+        
+        # Test volume calculation
+        expected_volume = 10.0u"cm" * 20.0u"cm" * 30.0u"cm"
+        @test volume(box) ≈ expected_volume
     end
 end

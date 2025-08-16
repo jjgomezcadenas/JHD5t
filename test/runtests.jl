@@ -9,4 +9,6 @@ using Test
     include("test_materials.jl")
     include("test_physical_volumes.jl")
     include("test_histograms.jl")
+    include("test_geometry.jl")
+    include("test_geometry_integration.jl")
 end
