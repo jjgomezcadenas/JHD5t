@@ -115,8 +115,11 @@ end
 
 # Pre-defined materials using data from MaterialsData.jl
 fe316ti = create_material("Fe316Ti")  # Stainless steel 316Ti
+ti = create_material("Ti")
 copper = create_material("Cu")
 ptfe = create_material("PTFE")
 titanium = create_material("Ti")
 lead = create_material("Pb")
+hdpe = create_material("Poly")
+kapton = create_material("Kapton")
     

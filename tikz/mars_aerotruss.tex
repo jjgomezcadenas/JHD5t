@@ -1,0 +1,435 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{siunitx}
+\usepackage{hyperref}
+\usepackage{xcolor}
+
+\geometry{margin=1in}
+
+\title{\textbf{The MARS Aero-Truss: Design and Turbulence Analysis}\\
+\large Technical Note -- ITACA Collaboration}
+\author{ITACA Collaboration}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+This document describes the mechanical design of the Magnetically Actuated Rail System (MARS) for the ITACA Time Projection Chamber and analyses the turbulence settling problem that limits the detector's fiducial efficiency. The MARS system positions a CMOS ion sensor at any coordinate $(r,\theta)$ below the TPC cathode by means of a rotating aerodynamic arm (the ``Aero-Truss'') operating in 15~bar xenon gas. The arm rotation disturbs the gas, and the resulting turbulence must decay below the ion drift velocity ($\sim$\SI{10}{cm/s}) before meaningful data can be collected. We describe the arm geometry, the ion plate positioning sequence, the structural design, and the fluid-dynamic constraints that together determine the dead time and fiducial volume efficiency of the detector.
+\end{abstract}
+
+\tableofcontents
+
+% ======================================================================
+\section{The Problem}
+% ======================================================================
+
+The ITACA detector is a large (\SI{2.6}{m} diameter $\times$ \SI{2.6}{m} drift length) Time Projection Chamber filled with xenon gas at \SI{15}{bar}. Ionising events produce positive $\mathrm{Xe}_2^+$ ions that drift downward through the fiducial volume at a velocity $v_d \approx \SI{10}{cm/s}$ under a uniform electric field of \SI{200}{V/cm}.
+
+At the bottom of the drift volume, the cathode mesh separates the fiducial region from a compact \textbf{MARS mechanics region} (\SI{14}{cm} tall). Inside this region, the MARS system positions a small CMOS ion sensor (the ``Ion Plate'', $20\times 20$~cm$^2$) at the $(r,\theta)$ coordinate directly below the predicted ion arrival point. The sensor must be in place and the surrounding gas must be quiescent \emph{before} the ions arrive.
+
+The fundamental challenge is that \textbf{positioning the sensor requires moving mechanical parts through the dense gas}, which generates turbulence. The turbulent velocity field deflects the slowly-drifting ions from their true trajectories, degrading tracking resolution. The gas must therefore settle to a residual velocity below $v_d$ before measurement can begin. The time spent rotating the arm and waiting for the gas to settle is \emph{dead time}, during which ions arriving at the cathode are lost. This dead zone corresponds to a vertical slice of the drift volume:
+\begin{equation}
+    Z_{\mathrm{dead}} = v_d \times (t_{\mathrm{rot}} + t_{\mathrm{settle}}),
+\end{equation}
+and the geometric fiducial efficiency is:
+\begin{equation}
+    \varepsilon_{\mathrm{geo}} = \frac{L_{\mathrm{fid}} - Z_{\mathrm{dead}}}{L_{\mathrm{fid}}},
+\end{equation}
+where $L_{\mathrm{fid}} = \SI{260}{cm}$. The design goal is $\varepsilon_{\mathrm{geo}} > 90\%$, requiring $Z_{\mathrm{dead}} < \SI{26}{cm}$ and hence $t_{\mathrm{rot}} + t_{\mathrm{settle}} < \SI{2.6}{s}$.
+
+
+% ======================================================================
+\section{System Overview}
+% ======================================================================
+
+\subsection{Location Within the Detector}
+
+The MARS system occupies a \SI{14}{cm} vertical zone immediately below the cathode mesh. Above lies the \SI{260}{cm} fiducial drift volume; below lies a \SI{15}{cm} OFHC copper radiation shield. The full vertical stack from anode to the bottom of the copper shield is summarised in Table~\ref{tab:stack}.
+
+\begin{table}[htbp]
+\centering
+\caption{Vertical detector stack (anode at top).}
+\label{tab:stack}
+\begin{tabular}{@{}llS[table-format=3.1]@{}}
+\toprule
+\textbf{Component} & \textbf{Description} & {\textbf{Height (cm)}} \\
+\midrule
+Copper shield (top)     & OFHC Cu, radiopurity shield       & 15.0  \\
+Dense Silicon Plane     & SiPM tracking plane on Kapton     & 0.5   \\
+Light Guide Honeycomb   & Optical rods coupled to SiPMs     & 0.7   \\
+FAT-GEM                 & EL amplification structure        & 0.5   \\
+Fiducial drift volume   & Active detection region           & 260.0 \\
+Cathode mesh            & Wire grid, biased at $+$\SI{500}{V} & {---}   \\
+\textbf{MARS region}    & \textbf{Arm + ion plate + clearances} & \textbf{14.0} \\
+Copper shield (bottom)  & OFHC Cu, with central shaft bore  & 15.0  \\
+\midrule
+\textbf{Total}          &                                   & \textbf{305.7} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{The $(r,\theta)$ Coordinate System}
+
+The MARS system positions the ion plate at an arbitrary point within the circular cathode plane using polar coordinates:
+\begin{itemize}
+    \item $\theta$ (azimuthal): set by rotating the entire arm assembly about the central vertical axis.
+    \item $r$ (radial): set by sliding the ion plate along the arm, from the hub ($r=0$) to the tip ($r=R=\SI{1.3}{m}$).
+\end{itemize}
+The two motions are driven by independent coaxial shafts and can be executed simultaneously to reduce positioning time.
+
+
+% ======================================================================
+\section{Mechanical Architecture}
+% ======================================================================
+
+\subsection{The Drive Mechanism}
+
+All actuation originates from below the copper floor shield, preserving the radiopurity of the active volume.
+
+\begin{itemize}
+    \item \textbf{Re-entrant well:} A titanium well protrudes \SI{200}{mm} below the bottom flange. An external motor drives an internal permanent-magnet rotor through the hermetic titanium wall via magnetic coupling. This eliminates any rotating seal or feedthrough in the pressure boundary.
+    \item \textbf{Coaxial shaft:} The magnetic rotor drives a nested pair of concentric titanium shafts that rise through a \SI{50}{mm} bore in the copper floor shield:
+    \begin{itemize}
+        \item \textbf{Outer shaft} ($\varnothing$\SI{40}{mm}, hollow): rigidly connected to the arm structure via a central yoke. Rotation of this shaft sets the $\theta$ coordinate.
+        \item \textbf{Inner shaft} ($\varnothing$\SI{15}{mm}, solid): runs concentrically inside the outer shaft on ceramic bearings. It carries a master timing pulley above the yoke. Differential rotation between the two shafts drives a belt that slides the ion plate along the arm, setting the $r$ coordinate.
+    \end{itemize}
+\end{itemize}
+
+\subsection{The Aero-Truss Arm}
+
+The arm is a symmetric ``propeller'' configuration: two identical arms extend radially in opposite directions from the central yoke, spanning a total diameter of \SI{2.6}{m}. Each arm is an aerodynamically faired beam designed to minimise the turbulent wake generated during rotation.
+
+\subsubsection{Cross-Section (The ``Wing'')}
+
+The arm cross-section, viewed looking radially inward from the tip toward the hub, is a \textbf{NACA 0012 symmetric airfoil} (Figure~\ref{fig:cross}). The NACA 0012 profile was chosen for its well-characterised low-drag properties and smooth pressure recovery, which minimises flow separation and wake turbulence.
+
+\begin{itemize}
+    \item \textbf{Chord} (vertical, along the ion drift direction): \SI{80}{mm}. This dimension is set by the need to enclose the structural skeleton and provide adequate bending stiffness. The chord is oriented vertically so that the thin edges of the airfoil face the tangential gas flow during rotation.
+    \item \textbf{Maximum thickness} (tangential, perpendicular to chord): $0.12 \times 80 = \SI{9.6}{mm}$. This is the largest dimension the gas flow encounters head-on during arm rotation, and it sets the integral scale of the turbulent wake ($d_{\mathrm{wake}} = \SI{9.6}{mm}$).
+    \item \textbf{Maximum thickness location:} at 30\% chord from the leading edge (\SI{24}{mm} from the top of the profile).
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\fbox{\parbox{0.85\textwidth}{\centering\vspace{4pt}
+\textit{[Cross-section diagram: see \texttt{arm\_diagram.pdf}, panel (a)]}\\[2pt]
+NACA 0012 profile, chord vertical (80~mm), thickness horizontal (9.6~mm).\\
+Three Ti longerons visible inside the HDPE skin.\\
+Flow direction: tangential (horizontal). Ion drift: vertical (downward).
+\vspace{4pt}}}
+\caption{Cross-section of the Aero-Truss arm, looking radially inward from the tip.}
+\label{fig:cross}
+\end{figure}
+
+\subsubsection{Structural Skeleton}
+
+The load-bearing structure consists of three \textbf{Titanium Grade~5 longerons}---thin-walled tubes that run the full \SI{1.3}{m} span of each arm, parallel to each other. They are arranged at the vertices of a triangle inscribed within the NACA profile:
+\begin{itemize}
+    \item Two longerons are placed at the widest point of the profile (30\% chord from the leading edge), one on each side of the tangential centreline, providing maximum resistance to tangential bending.
+    \item One longeron is placed near the trailing edge on the centreline, completing the triangular truss and providing torsional stiffness.
+\end{itemize}
+
+\subsubsection{Aerodynamic Skin}
+
+The skeleton is wrapped in a \SI{0.5}{mm} sheet of \textbf{High-Density Polyethylene (HDPE)}, thermoformed to the NACA 0012 profile. HDPE is selected for its exceptional radiopurity, chemical inertness in xenon, and ease of forming. The skin serves three functions: it defines the aerodynamic shape, it transfers shear loads between the longerons (stressed-skin construction), and it prevents gas from entering the internal cavity. The drag coefficient of the faired profile is $C_d < 0.3$ (based on the tangential thickness), compared to $C_d \approx 1.0$ for an un-faired open truss.
+
+\subsubsection{Tip Support: The Copper Rail}
+
+Each arm tip rides on a peripheral \textbf{OFHC copper rail}---a circular track embedded in the lower copper shield at the full radius of the MARS region. The interface uses \textbf{HDPE or Vespel SP-3 rollers} that glide on the polished copper surface. This provides a second support point (in addition to the central hub), making the arm a \textbf{simply-supported beam} rather than a cantilever. The copper rail:
+\begin{itemize}
+    \item Maintains the arm parallel to the cathode grid within $\pm\SI{0.5}{mm}$ tolerance.
+    \item Reduces bending moments by a factor of $\sim$5 compared to a cantilevered design.
+    \item Provides radiopure structural support (OFHC copper is among the cleanest materials available).
+\end{itemize}
+
+\subsection{Arm Dimensions Summary}
+
+Table~\ref{tab:arm} summarises all dimensions of the Aero-Truss arm.
+
+\begin{table}[htbp]
+\centering
+\caption{Aero-Truss arm parameters.}
+\label{tab:arm}
+\begin{tabular}{@{}llS[table-format=4.1]l@{}}
+\toprule
+\textbf{Parameter} & \textbf{Symbol} & {\textbf{Value}} & \textbf{Unit} \\
+\midrule
+\multicolumn{4}{@{}l}{\textit{Airfoil profile}} \\
+Profile type            &               & \multicolumn{2}{l}{NACA 0012 (symmetric)} \\
+Chord (vertical)        & $c$           & 80   & mm \\
+Max thickness (tangential) & $d_{\mathrm{wake}}$ & 9.6  & mm \\
+Thickness-to-chord ratio & $t/c$        & 0.12 & {---} \\
+Max thickness location  &               & 30   & \% chord from LE \\
+Drag coefficient        & $C_d$         & {$<0.3$} & {---} \\
+\midrule
+\multicolumn{4}{@{}l}{\textit{Structural skeleton}} \\
+Number of longerons     &               & 3    & {---} \\
+Longeron material       &               & \multicolumn{2}{l}{Titanium Grade 5} \\
+Longeron outer diameter &               & 8    & mm \\
+Longeron wall thickness &               & 0.8  & mm \\
+Arrangement             &               & \multicolumn{2}{l}{Triangular, 2 at max-width + 1 at TE} \\
+\midrule
+\multicolumn{4}{@{}l}{\textit{Skin}} \\
+Material                &               & \multicolumn{2}{l}{HDPE (High-Density Polyethylene)} \\
+Thickness               & $t_s$         & 0.5  & mm \\
+\midrule
+\multicolumn{4}{@{}l}{\textit{Overall dimensions}} \\
+Span per side           & $R$           & 1.3   & m \\
+Total span (hub to hub) &               & 2.6   & m \\
+Mass per arm            &               & {$\sim$2.1} & kg \\
+\quad Titanium skeleton &               & 1.3  & kg \\
+\quad HDPE skin         &               & 0.3  & kg \\
+\quad Hardware (belt, guides) &         & 0.5  & kg \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+% ======================================================================
+\section{The Ion Plate and Its Positioning Sequence}
+% ======================================================================
+
+\subsection{The Ion Plate}
+
+The ion plate is the sensor payload: a $20\times 20$~cm$^2$ module containing CMOS pixel sensors, housed in a miniature field cage (the ``Mini-TPC''). It weighs approximately \SI{600}{g}. Two identical ion plates are mounted on opposite arms, one per side, so that each $\theta$ rotation positions \emph{two} sensors simultaneously.
+
+The ion plate operates as an inverted TPC that extracts positive ions downward through the cathode mesh:
+\begin{itemize}
+    \item \textbf{Cathode mesh} ($+$\SI{500}{V}): the boundary between the main drift volume and the MARS region.
+    \item \textbf{Intake grid} ($+$\SI{300}{V}): \SI{5}{mm} below the cathode. The \SI{200}{V} potential difference creates a strong extraction field ($E \approx \SI{400}{V/cm}$) that pulls $\mathrm{Xe}_2^+$ ions through the mesh.
+    \item \textbf{Mini field cage}: six field-shaping rings degrade the voltage linearly from $+$\SI{300}{V} to ground over \SI{20}{mm}, maintaining a uniform internal drift field of $\sim$\SI{150}{V/cm}.
+    \item \textbf{Sensor plane} (\SI{0}{V}): the CMOS pixel array, held at ground potential.
+\end{itemize}
+
+\subsection{Why the Plate Must Rotate}
+\label{sec:plate_rotation}
+
+During arm rotation, the ion plate presents a large cross-sectional area to the tangential gas flow. A $20\times 20$~cm$^2$ plate face-on to the flow would act as a bluff body ($C_d \approx 1.1$) with a \SI{200}{mm} wake scale, generating turbulence far more intense and persistent than the arm itself. This would dominate the settling time and severely degrade the fiducial efficiency.
+
+The solution is to \textbf{rotate the plate 90$^\circ$ about its radial axis} so that it presents its thin edge ($\sim$\SI{10}{mm}) to the tangential flow during arm rotation. Once the arm has stopped and the gas has settled, the plate rotates back to its face-on orientation (facing upward toward the cathode) to collect ions. This edge-on strategy reduces the plate's effective wake dimension by a factor of $\sim$20, making the arm profile the dominant turbulence source rather than the plate.
+
+\subsection{Complete Positioning Sequence}
+
+A full measurement cycle proceeds as follows:
+
+\begin{enumerate}
+    \item \textbf{Prediction:} The data acquisition system predicts the $(r,\theta)$ arrival point of the next ion cluster based on the known drift velocity and the time elapsed since the ionising event.
+    
+    \item \textbf{Plate rotation to edge-on:} Both ion plates rotate 90$^\circ$ about their radial axes, presenting their thin edges to the tangential flow. This is done before the arm begins to move.
+    
+    \item \textbf{Arm rotation ($\theta$ positioning):} The outer shaft rotates the entire arm assembly to the target azimuthal angle. Simultaneously, the inner shaft drives the belt to slide the plates to the target radial positions. The rotation covers up to 90$^\circ$ (the maximum angular travel needed, given the dual-arm symmetry) in $t_{\mathrm{rot}} \approx \SI{0.9}{s}$.
+    
+    \item \textbf{Arm stops:} The arm decelerates and comes to rest. At this instant, the gas is disturbed: a turbulent wake trails behind the arm, with velocity $u_0$ and integral scale $\sim d_{\mathrm{wake}}$.
+    
+    \item \textbf{Settling:} The turbulence decays via the energy cascade. The system waits for $t_{\mathrm{settle}}$ until the residual gas velocity falls below the ion drift velocity ($v_d \approx \SI{10}{cm/s}$). During this time, ions continue to drift downward and are lost.
+    
+    \item \textbf{Plate rotation to face-on:} Once the gas is quiescent, the plates rotate back to face-on orientation, presenting the sensor surface upward toward the cathode to collect the arriving ions.
+    
+    \item \textbf{Data collection:} Ions drift through the cathode mesh, are extracted by the intake grid, traverse the mini field cage, and are detected by the CMOS sensors.
+\end{enumerate}
+
+
+% ======================================================================
+\section{Kinematics}
+% ======================================================================
+
+\subsection{Equation of Motion}
+
+The arm rotation is governed by the balance of motor torque against inertial and aerodynamic drag loads. For a bang-bang acceleration profile (accelerate for the first half of the rotation, decelerate for the second half) through an angle $\Delta\theta = \pi/2$:
+
+\begin{equation}
+    \tau_{\mathrm{max}} = I_{\mathrm{total}} \cdot \alpha + \tau_{\mathrm{drag}},
+\end{equation}
+where $\tau_{\mathrm{max}} = \SI{140}{Nm}$ is the available motor torque (transmitted magnetically), $I_{\mathrm{total}}$ is the total moment of inertia, and $\alpha = 2\Delta\theta / t_{\mathrm{rot}}^2$ is the angular acceleration for the half-period. 
+
+The aerodynamic drag torque on the arm scales as $\tau_{\mathrm{drag}} \propto \omega^2$ and integrates to a term $\sim 90/t_{\mathrm{rot}}^2$ for the NACA-faired profile in \SI{15}{bar} xenon. The equation of motion becomes:
+\begin{equation}
+    140 = \frac{I_{\mathrm{total}} \cdot 2\pi + 90}{t_{\mathrm{rot}}^2} = \frac{3.8 \times 2\pi + 90}{t_{\mathrm{rot}}^2} \approx \frac{114}{t_{\mathrm{rot}}^2},
+\end{equation}
+giving:
+\begin{equation}
+    t_{\mathrm{rot}} = \sqrt{\frac{114}{140}} \approx \SI{0.90}{s}.
+\end{equation}
+
+\subsection{Inertial Parameters}
+
+\begin{table}[htbp]
+\centering
+\caption{Inertial loads for the dual-arm system.}
+\label{tab:inertia}
+\begin{tabular}{@{}lS[table-format=2.1]l@{}}
+\toprule
+\textbf{Component} & {\textbf{$I$ (\si{kg\,m^2})}} & \textbf{Notes} \\
+\midrule
+Aero-Truss (both arms)  & 1.8  & Lightweight faired design \\
+Ion plates ($\times 2$)  & 2.0  & $2 \times 0.6\,\mathrm{kg} \times (1.3\,\mathrm{m})^2$ \\
+\midrule
+\textbf{Total}           & \textbf{3.8} & \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+% ======================================================================
+\section{The Settling Problem}
+% ======================================================================
+
+\subsection{Gas Properties}
+
+The settling time is governed by the fluid-dynamic properties of \SI{15}{bar} xenon gas at room temperature.
+
+\begin{table}[htbp]
+\centering
+\caption{Properties of xenon gas at \SI{15}{bar}, \SI{293}{K}.}
+\label{tab:gas}
+\begin{tabular}{@{}lS[table-format=4.2]l@{}}
+\toprule
+\textbf{Property} & {\textbf{Value}} & \textbf{Unit} \\
+\midrule
+Pressure $P$                & 15    & bar \\
+Temperature $T$             & 293   & K \\
+Density $\rho$              & 80.0  & \si{kg/m^3} \\
+Dynamic viscosity $\mu$     & 23.2  & \si{\micro Pa\cdot s} \\
+Kinematic viscosity $\nu$   & 2.9e-7 & \si{m^2/s} \\
+Ion drift velocity $v_d$    & 0.10  & \si{m/s} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The kinematic viscosity of \SI{15}{bar} xenon is $\nu \approx \SI{2.9e-7}{m^2/s}$---roughly 50 times lower than air at atmospheric pressure. This means that for a given wake scale and velocity, the Reynolds number is 50 times higher and turbulence persists correspondingly longer. This is the core of the settling problem.
+
+\subsection{Wake Velocity at the Moment of Stopping}
+
+When the arm decelerates to rest, the last coherent vortices are shed with a characteristic velocity $u_0$ that depends on how quickly the arm was moving just before it stopped, and on the wake dimension $d_{\mathrm{wake}}$. Using a self-consistent deceleration model:
+
+\begin{equation}
+    u_0 = \sqrt{\alpha \cdot R \cdot d_{\mathrm{wake}}},
+\end{equation}
+where $\alpha \approx \SI{7.8}{rad/s^2}$ is the angular deceleration and $R = \SI{1.3}{m}$ is the arm radius. With $d_{\mathrm{wake}} = \SI{9.6}{mm}$:
+\begin{equation}
+    u_0 = \sqrt{7.8 \times 1.3 \times 0.0096} \approx \SI{0.31}{m/s}.
+\end{equation}
+
+The velocity ratio $u_0 / v_d \approx 3.1$ means the turbulent wake must decay by a factor of $\sim$3 before the gas is quiescent enough for ion tracking.
+
+\subsection{Turbulence Decay Model}
+
+After the arm stops, the wake decays as a free turbulent field with no energy input. The decay follows a power law:
+\begin{equation}
+    u(t) = u_0 \left(1 + \frac{t}{\tau_0}\right)^{-n/2},
+\end{equation}
+where $\tau_0 = L_0 / u_0$ is the initial eddy turnover time, $L_0 = d_{\mathrm{wake}}$ is the integral scale, and $n$ is the decay exponent. Grid turbulence experiments give $n \approx 1.0$--$1.4$; we adopt $n = 1.0$ (conservative, slower decay) and $n = 1.2$ (realistic) as bounding cases.
+
+The settling time is obtained by solving $u(t_{\mathrm{settle}}) = v_d$:
+\begin{equation}
+    t_{\mathrm{settle}} = \tau_0 \left[\left(\frac{u_0}{v_d}\right)^{2/n} - 1\right].
+\end{equation}
+
+\subsection{Key Parameters}
+
+\begin{table}[htbp]
+\centering
+\caption{Settling time calculation parameters.}
+\label{tab:settling}
+\begin{tabular}{@{}llS[table-format=2.3]l@{}}
+\toprule
+\textbf{Parameter} & \textbf{Symbol} & {\textbf{Value}} & \textbf{Unit} \\
+\midrule
+Wake dimension          & $d_{\mathrm{wake}}$ & 9.6    & mm \\
+Initial wake velocity   & $u_0$               & 0.31   & m/s \\
+Target velocity         & $v_d$               & 0.10   & m/s \\
+Velocity ratio          & $u_0/v_d$           & 3.1    & {---} \\
+Integral scale          & $L_0$               & 9.6    & mm \\
+Initial turnover time   & $\tau_0 = L_0/u_0$  & 0.031  & s \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+% ======================================================================
+\section{Structural Verification}
+% ======================================================================
+
+The arm is a simply-supported beam (hub $+$ copper rail at tip). The critical load case is tangential bending from angular acceleration/deceleration.
+
+\subsection{Loads}
+
+For a simply-supported beam with linearly increasing distributed load $q(r) = \mu \alpha r$ (where $\mu$ is the linear mass density), the maximum bending moment occurs at $r = R/\sqrt{3}$ and equals:
+\begin{equation}
+    M_{\mathrm{max}} = \frac{\mu \alpha R^3}{9\sqrt{3}} \approx \SI{1.8}{Nm}.
+\end{equation}
+The ion plate sits at the tip support ($r = R$), so it contributes \emph{zero} bending moment. Gravity bending (about the tangential axis) gives $M_{\mathrm{grav}} = \mu g R^2/8 \approx \SI{3.4}{Nm}$, also modest.
+
+\subsection{Section Adequacy}
+
+With three \SI{8}{mm} Ti tubes spread across the profile, the section modulus is sufficient to keep stresses well below the \SI{400}{MPa} allowable (Ti Gr.5 with safety factor 2). The midspan deflection under tangential loading is $\sim$\SI{7}{mm}, which is purely transient (exists only during rotation) and recovers fully when the arm stops. Since no measurement occurs during rotation, this deflection has no impact on detector performance.
+
+\begin{table}[htbp]
+\centering
+\caption{Structural summary.}
+\label{tab:structural}
+\begin{tabular}{@{}lS[table-format=3.1]ll@{}}
+\toprule
+\textbf{Parameter} & {\textbf{Value}} & \textbf{Unit} & \textbf{Notes} \\
+\midrule
+Boundary conditions     & \multicolumn{3}{l}{Simply supported (hub + Cu rail)} \\
+Max tangential moment   & 1.8   & Nm   & At $r = R/\sqrt{3}$ \\
+Max gravity moment      & 3.4   & Nm   & At midspan \\
+Ti Gr.5 allowable stress & 400  & MPa  & With SF $= 2$ \\
+Midspan deflection (tangential) & 7 & mm & Transient, during rotation only \\
+Tip vertical tolerance  & {$\pm$0.5} & mm & Maintained by Cu rail \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+% ======================================================================
+\section{Performance Summary}
+% ======================================================================
+
+\begin{table}[htbp]
+\centering
+\caption{MARS cycle time and fiducial efficiency.}
+\label{tab:performance}
+\begin{tabular}{@{}lS[table-format=1.2]S[table-format=1.2]l@{}}
+\toprule
+\textbf{Parameter} & {$n=1.0$} & {$n=1.2$} & \textbf{Unit} \\
+& {(conservative)} & {(realistic)} & \\
+\midrule
+Rotation time $t_{\mathrm{rot}}$           & 0.90  & 0.90  & s \\
+Settling time $t_{\mathrm{settle}}$        & \multicolumn{2}{c}{\textit{to be computed}} & s \\
+Total cycle $t_{\mathrm{cycle}}$           & \multicolumn{2}{c}{\textit{to be computed}} & s \\
+Dead zone $Z_{\mathrm{dead}}$             & \multicolumn{2}{c}{\textit{to be computed}} & cm \\
+Fiducial efficiency $\varepsilon_{\mathrm{geo}}$ & \multicolumn{2}{c}{\textit{to be computed}} & \% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The settling time calculation, including the effect of the cathode mesh(es) on eddy scale reduction and velocity attenuation, will be presented in a companion note. The parameters in Table~\ref{tab:settling} define the initial conditions for that calculation.
+
+
+% ======================================================================
+\section{Design Decisions and Trade-offs}
+% ======================================================================
+
+\begin{enumerate}
+    \item \textbf{NACA 0012 profile:} The airfoil minimises wake turbulence at the cost of slightly increased complexity in fabrication. The 12\% thickness ratio is a compromise between structural volume (to house the longerons) and wake dimension (smaller is better for settling).
+    
+    \item \textbf{Chord = \SI{80}{mm}:} The chord is the minimum that comfortably encloses the \SI{8}{mm} longerons within the \SI{9.6}{mm} maximum thickness, while providing sufficient bending stiffness with the HDPE skin.
+    
+    \item \textbf{HDPE skin over PEEK or CFRP:} HDPE is the most radiopure polymer available and is chemically inert in xenon. Its low stiffness ($E \approx \SI{1}{GPa}$) is compensated by the Ti longerons for bending loads and by the copper rail for tip support.
+    
+    \item \textbf{Plate rotation (edge-on during transit):} This eliminates the \SI{200}{mm} plate face as a turbulence source, reducing the dominant wake scale from \SI{200}{mm} to the arm's \SI{9.6}{mm}---a factor of 20 reduction that is critical for achieving acceptable settling times.
+    
+    \item \textbf{Simply-supported arm (hub + copper rail):} Reduces bending moments by $\sim$5$\times$ compared to a cantilevered design, enabling the use of small (\SI{8}{mm}) longerons that fit within the thin airfoil profile.
+\end{enumerate}
+
+
+\end{document}

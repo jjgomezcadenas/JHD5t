@@ -9,6 +9,8 @@ include("shapes.jl")
 include("materials.jl")
 include("PhysicalVolume.jl")
 include("histos.jl")
+include("hd5t_functions.jl")
+include("detector.jl")
 
 export GeometricShape, Box, Cylinder, CylinderShell
 export Position, Envelope, PlacedVolume, CylindricalEnvelope, BoxEnvelope
@@ -17,7 +19,7 @@ export inner_surface, inner_endcap_surface, outer_surface, outer_endcap_surface,
 export center_position, envelope_bounds, is_inside, ray_cylinder_intersection
 export PhysicalMaterial, RadioactiveMaterial, GXe, create_material
 export MU, RHO, BI214, TL208
-export fe316ti, copper, ptfe, titanium, lead
+export fe316ti, copper, ptfe, titanium, lead, hdpe, kapton
 export PhysicalCylindricalShell, PhysicalCylinder, NextVessel
 export mass, att_length, a_bi214, a_tl208
 export mass_bst, mass_bsl, mass_est, mass_esl, mass_gas
@@ -30,5 +32,11 @@ export hist1d, hist2d, p1df, step_hist, in_range, get_histo1d, Histo1d
 export scan_level, get_vals_from_sparse, centers, edges
 export save_histo1d, load_histo1d
 export save_histos, load_histos
+export read_detector_summary, get_component_data
+export total_activity_bi214, total_activity_tl208, total_mass
+export filter_by_material, activity_summary
+export hd5t_detector, analyze_hd5t_detector
+export create_detector_summary_df, format_detector_summary_df, save_detector_summary
+export plot_hd5t_projections, plot_hd5t_combined
 
 end # module JHD5t

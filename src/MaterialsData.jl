@@ -23,6 +23,7 @@ MU = Dict("H2O" => 0.045 * cm^2/g,
           "Kevlar" => 0.045 * cm^2/g,
           "Poly" => 1e-6 * cm^2/g,
           "PTFE" => 1e-6 * cm^2/g,
+          "Kapton" => 0.045 * cm^2/g,
 )
 
 RHO = Dict("H2O" => 1.00 * g/cm^3,
@@ -34,6 +35,7 @@ RHO = Dict("H2O" => 1.00 * g/cm^3,
            "Kevlar" => 1440 * kg/m^3,
            "Poly" => 1.0 * g/cm^3,
            "PTFE" => 2.0 * g/cm^3,
+           "Kapton" => 1.42 * g/cm^3,
 )
 
 
@@ -46,7 +48,8 @@ BI214 = Dict("Fe316Ti" => 1.9e-3 * Bq/kg,
              "Pb" => 370.0e-6 * Bq/kg,
              "Kevlar" => 0.17 * Bq/kg,
              "Poly" => 62.0e-6 * Bq/kg,
-             "PTFE" => 25e-6 * Bq/kg
+             "PTFE" => 25e-6 * Bq/kg,
+             "Kapton" => 1e-3 * Bq/kg
 )
 
 TL208 = Dict("Fe316Ti" => 0.4e-3 * Bq/kg,
@@ -58,7 +61,8 @@ TL208 = Dict("Fe316Ti" => 0.4e-3 * Bq/kg,
              "Pb" => 73e-6 * Bq/kg,
              "Kevlar" => 0.17 * Bq/kg,
              "Poly" => 8.e-6 * Bq/kg,
-             "PTFE" => 10.0e-6 * Bq/kg
+             "PTFE" => 10.0e-6 * Bq/kg,
+             "Kapton" => 1e-3 * Bq/kg
 )
 
 

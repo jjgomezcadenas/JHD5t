@@ -1,0 +1,42 @@
+\contentsline {section}{\numberline {1}The Problem}{2}{section.1}%
+\contentsline {section}{\numberline {2}System Overview}{2}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Location Within the Detector}{2}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}The $(r,\theta )$ Coordinate System}{3}{subsection.2.2}%
+\contentsline {section}{\numberline {3}Mechanical Architecture}{3}{section.3}%
+\contentsline {subsection}{\numberline {3.1}The Drive Mechanism: Dual-Concentric Magnetic Coupling}{3}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}The Coaxial Hub Assembly}{3}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}The Aero-Truss Arm}{4}{subsection.3.3}%
+\contentsline {subsubsection}{\numberline {3.3.1}Cross-Section (The ``Wing'')}{4}{subsubsection.3.3.1}%
+\contentsline {subsubsection}{\numberline {3.3.2}Structural Skeleton}{5}{subsubsection.3.3.2}%
+\contentsline {subsubsection}{\numberline {3.3.3}Aerodynamic Skin}{5}{subsubsection.3.3.3}%
+\contentsline {subsubsection}{\numberline {3.3.4}Tip Support: The Copper Rail}{5}{subsubsection.3.3.4}%
+\contentsline {subsection}{\numberline {3.4}Arm Dimensions Summary}{5}{subsection.3.4}%
+\contentsline {section}{\numberline {4}The Ion Plate and Its Positioning Sequence}{5}{section.4}%
+\contentsline {subsection}{\numberline {4.1}The Ion Plate}{5}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Why the Plate Must Rotate}{7}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Complete Positioning Sequence}{7}{subsection.4.3}%
+\contentsline {section}{\numberline {5}Kinematics}{7}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Inertial Parameters}{7}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Rotation Profile}{8}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}Aerodynamic Drag Torque}{8}{subsection.5.3}%
+\contentsline {subsection}{\numberline {5.4}Peak Torque Balance}{8}{subsection.5.4}%
+\contentsline {subsection}{\numberline {5.5}Numerical Evaluation}{9}{subsection.5.5}%
+\contentsline {paragraph}{Inertia term:}{9}{section*.2}%
+\contentsline {paragraph}{Drag term:}{9}{section*.3}%
+\contentsline {paragraph}{Rotation time:}{9}{section*.4}%
+\contentsline {paragraph}{Derived quantities:}{9}{section*.5}%
+\contentsline {paragraph}{Note:}{10}{section*.6}%
+\contentsline {subsection}{\numberline {5.6}Rotation--Settling Trade-off}{10}{subsection.5.6}%
+\contentsline {section}{\numberline {6}The Settling Problem}{10}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Gas Properties}{10}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Wake Velocity at the Moment of Stopping}{10}{subsection.6.2}%
+\contentsline {subsection}{\numberline {6.3}Turbulence Decay Model}{11}{subsection.6.3}%
+\contentsline {subsection}{\numberline {6.4}Conservative Baseline (No Mesh Correction)}{11}{subsection.6.4}%
+\contentsline {paragraph}{Sensitivity to $n$.}{11}{section*.7}%
+\contentsline {subsection}{\numberline {6.5}Possible Improvement: Cathode Mesh Correction}{12}{subsection.6.5}%
+\contentsline {paragraph}{Caution.}{12}{section*.8}%
+\contentsline {section}{\numberline {7}Structural Verification}{12}{section.7}%
+\contentsline {subsection}{\numberline {7.1}Loads}{12}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}Section Adequacy}{12}{subsection.7.2}%
+\contentsline {section}{\numberline {8}Performance Summary}{13}{section.8}%
+\contentsline {section}{\numberline {9}Design Decisions and Trade-offs}{13}{section.9}%

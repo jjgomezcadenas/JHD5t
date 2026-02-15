@@ -1,0 +1,199 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{siunitx}
+
+\geometry{margin=1in}
+
+\title{\textbf{Design and Performance of the MARS System}\\
+\large Magnetically Actuated Rail System for the ITACA TPC}
+\author{ITACA Collaboration}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+This document outlines the mechanical design and kinematic performance of the Magnetically Actuated Rail System (MARS) for the ITACA detector. We present a conceptual design based on a hermetic coaxial magnetic drive capable of positioning a CMOS ion sensor at any coordinate $(r,\theta)$ within the TPC volume. The design features a re-entrant well geometry to maximize radiopurity and utilizes a symmetric "Propeller" arm configuration for mechanical balance. We also detail the pressure vessel dimensions required to house a $260 \times 260$~cm fiducial volume shielded by 15~cm of internal copper.
+\end{abstract}
+
+\section{Detector Description and Vessel Sizing}
+
+The ITACA detector is designed around a large, monolithic Time Projection Chamber (TPC) filled with enriched xenon gas at 15~bar. The design prioritization is radiopurity, maximizing the active fiducial volume, and ensuring full tracking capability.
+
+\subsection{Internal Layering (Anode to Cathode)}
+
+The detector components are arranged vertically. Starting from the top (Anode) and moving downwards into the TPC volume:
+
+\begin{enumerate}
+    \item \textbf{Inner Copper Shield (Top):} A 15~cm thick layer of ultra-pure oxygen-free high thermal conductivity (OFHC) copper providing the primary radiogenic shield for the anode region.
+    \item \textbf{Dense Silicon Plane (DSP):} A thin Kapton foil carrier board populated with Silicon Photomultipliers (SiPMs) for tracking ($xy$) and energy ($S2$) reconstruction.
+    \item \textbf{Light Guide Honeycomb:} A 7~mm thick structure composed of optical rods coupled to individual SiPMs. This honeycomb acts as a light guide to collect EL photons while shielding the sensors from the high-field region.
+    \item \textbf{FAT-GEM Structure:} A 5~mm thick amplification structure (Field Assisted Transparent Gas Electron Multiplier) responsible for generating the Electroluminescence (EL) signal.
+    \item \textbf{Fiducial Drift Volume:} The active detection region begins immediately below the FAT-GEM. It extends for a length of $L_{\mathrm{fid}} = 260$~cm.
+    \item \textbf{Cathode Grid:} A highly transparent wire mesh defining the bottom of the drift field.
+    \begin{itemize}
+        \item \textbf{Bias Voltage:} The cathode is held at a positive potential of \textbf{+500~V} relative to ground to facilitate ion extraction.
+    \end{itemize}
+    \item \textbf{MARS Mechanics Region:} A compact \textbf{14~cm vertical zone} allocated for the moving truss arm and ion plate.
+    \begin{itemize}
+        \item Since the magnetic hub mechanism is located \textit{below} the copper shield (in the re-entrant well), this region only requires height for the aerodynamic arm profile ($\sim$8~cm) and safety clearances ($\sim$3~cm top/bottom) to the High Voltage cathode.
+    \end{itemize}
+    \item \textbf{Inner Copper Shield (Bottom):} A 15~cm thick copper shield lining the floor of the vessel.
+    \begin{itemize}
+        \item \textbf{Penetration:} This layer is solid except for a narrow central bore ($\O \approx 50$~mm) allowing the titanium drive shaft to connect the external hub to the internal truss.
+    \end{itemize}
+\end{enumerate}
+
+\subsection{Ion Extraction Module (The Sensor Payload)}
+To protect the CMOS sensors and ensure efficient ion collection, the Ion Plate is designed as a miniature, inverted TPC operating at low voltage.
+
+\begin{itemize}
+    \item \textbf{Topology:} The extraction field is established between the Cathode (+500~V) and the Sensor Plane (0~V / Ground).
+    \item \textbf{Intake Grid (+300~V):} Located 5~mm below the Cathode. The 200~V difference creates a strong extraction field ($E \approx 400$~V/cm) that pulls positive ions through the cathode mesh.
+    \item \textbf{Field Cage (The "Mini-TPC"):} A stack of \textbf{6 field-shaping rings} degrades the voltage linearly from +300~V to Ground over 20~mm, maintaining a uniform internal drift field of $\sim$150~V/cm.
+    \item \textbf{Sensor Plane (Ground):} The CMOS pixel sensors are held at \textbf{Ground Potential}, simplifying readout.
+\end{itemize}
+
+\subsection{Pressure Vessel Sizing}
+
+To accommodate the described internal components, the Titanium Grade 5 pressure vessel must have the following minimum internal dimensions:
+
+\paragraph{Internal Diameter ($ID_{\mathrm{PV}}$)}
+\begin{align*}
+    ID_{\mathrm{PV}} &= D_{\mathrm{fid}} + 2 \times (\text{Field Cage}) + 2 \times (\text{Clearance}) + 2 \times (\text{Copper Shield}) \\
+    &= 260~\text{cm} + 2(5~\text{cm}) + 2(2~\text{cm}) + 2(15~\text{cm}) \\
+    &= 260 + 10 + 4 + 30 \\
+    &= \mathbf{304~\text{cm}} \quad (\approx 3.05~\text{m})
+\end{align*}
+
+\paragraph{Internal Height ($H_{\mathrm{PV}}$)}
+\begin{align*}
+    H_{\mathrm{PV}} &= H_{\mathrm{Shield}}^{\mathrm{top}} + H_{\mathrm{DSP}} + H_{\mathrm{LG}} + H_{\mathrm{GEM}} + L_{\mathrm{fid}} + H_{\mathrm{Mech}} + H_{\mathrm{Shield}}^{\mathrm{bot}} \\
+    &\approx 15 + 0.5 + 0.7 + 0.5 + 260 + \mathbf{14} + 15 \\
+    &= \mathbf{305.7~\text{cm}} \quad (\approx 3.10~\text{m})
+\end{align*}
+
+\subsection{Wall Thickness Calculation}
+
+Using the ASME Boiler and Pressure Vessel Code (Section VIII, Division 1) for a thin-walled cylindrical shell with $P=15$~bar (1.5 MPa) and Titanium Gr.5 ELI ($S \approx 200$~MPa):
+
+\begin{equation}
+    t = \frac{1.5 \times 1520}{200 \times 1.0 - 0.6 \times 1.5} \approx \mathbf{11.5~\text{mm}}
+\end{equation}
+
+Adding corrosion and manufacturing tolerances, we select a nominal wall thickness of \textbf{14~mm}.
+
+\section{MARS System Architecture}
+
+\subsection{The Drive Mechanism: Dual-Concentric Magnetic Coupling}
+The actuation utilizes a hermetic, through-wall magnetic transmission. To control both degrees of freedom ($r, \theta$) without dynamic seals, the system employs a \textbf{Dual-Concentric} design.
+
+\begin{itemize}
+    \item \textbf{Geometry:} A Titanium "well" protrudes 200~mm \textit{below} the bottom flange.
+    \item \textbf{External Stator (Air Side):} Two independent servo motors drive two concentric magnetic rings positioned around the outside of the titanium well.
+    \item \textbf{Internal Rotor (Xenon Side):} Inside the well, two corresponding magnetic rotors are nested concentrically. Each internal rotor is magnetically locked to its corresponding external ring, allowing independent torque transmission through the static wall.
+\end{itemize}
+
+\subsection{The Coaxial Hub Assembly}
+The connection between the magnetic drive and the truss arm relies on a nested shaft design that decouples azimuthal rotation ($\theta$) from radial extension ($r$).
+
+\begin{enumerate}
+    \item \textbf{Outer Shaft (The Azimuthal Drive):}
+    The \textbf{outer magnetic rotor} drives a hollow Titanium shaft ($\O 40$~mm) that rises from the well.
+    \begin{itemize}
+        \item \textbf{The Yoke:} This shaft terminates in a structural \textbf{Central Yoke}. The two "Aero-Truss" arms are bolted rigidly to this yoke.
+        \item \textbf{Motion:} Rotation of the outer shaft directly rotates the entire truss structure ($\theta$ coordinate).
+    \end{itemize}
+
+    \item \textbf{Inner Shaft (The Radial Drive):}
+    The \textbf{inner magnetic rotor} drives a solid shaft ($\O 15$~mm) running concentrically inside the hollow outer shaft.
+    \begin{itemize}
+        \item \textbf{The Drive Pulley:} This shaft extends slightly above the Central Yoke and carries the \textbf{Master Timing Pulley}.
+        \item \textbf{Motion:} This shaft rotates independently. The relative rotation between the Inner Shaft and the Outer Shaft drives the internal belt loop, extending or retracting the Ion Plate ($r$ coordinate).
+    \end{itemize}
+\end{enumerate}
+
+\subsection{Mechanical Structure: The "Aero-Truss"}
+
+
+
+To minimize inertial mass while maximizing stiffness, the truss arm utilizes a \textbf{triangular space frame} wrapped in a radiopure skin.
+
+\begin{enumerate}
+    \item \textbf{Structural Skeleton:}
+    The core load-bearing structure consists of three Titanium Grade 5 longerons (10~mm $\O \times 1$~mm wall) arranged in a triangular prism configuration to resist torsional twisting.
+    \item \textbf{Aerodynamic Skin (HDPE):}
+    The skeleton is wrapped in a thin (0.5~mm) sheet of \textbf{High-Density Polyethylene (HDPE)}.
+    \begin{itemize}
+        \item \textbf{Shape:} The HDPE skin forms a symmetrical \textbf{NACA 0012 airfoil} profile around the triangular frame. This reduces hydrodynamic drag coefficient ($C_d$) to $<0.3$.
+        \item \textbf{Radiopurity:} HDPE is selected for its extreme radiopurity (replacing PEEK) and chemical inertness in xenon.
+    \end{itemize}
+    \item \textbf{Mass Budget:}
+    \begin{itemize}
+        \item Titanium Skeleton: 1.3~kg
+        \item HDPE Skin: 0.3~kg
+        \item Hardware: 0.5~kg
+        \item \textbf{Total Arm Mass:} \textbf{$\sim$2.1~kg} per side.
+    \end{itemize}
+\end{enumerate}
+
+\subsection{Mechanical Guidance System}
+The arm tip is supported vertically by a peripheral \textbf{OFHC Copper Rail}. The interface uses \textbf{HDPE or Vespel SP-3 rollers} to glide on the copper surface, ensuring the arm remains parallel to the cathode grid within $\pm 0.5$~mm tolerance.
+
+\section{Kinematics and Speed Estimation (Dual Arm)}
+
+We evaluate the performance of the Dual-Arm "Propeller" system in 15~bar xenon with $\tau_{\mathrm{max}}=140$~Nm.
+
+\subsection{Inertial Loads (Lightweight Design)}
+\begin{align}
+    I_{\mathrm{truss}} &\approx 1.8~\mathrm{kg\,m^2} \quad \text{(Lightweight Aero-Truss)} \\
+    I_{\mathrm{plates}} &= 2 \times (0.6 \times 1.3^2) \approx 2.0~\mathrm{kg\,m^2} \\
+    I_{\mathrm{total}} &\approx \mathbf{3.8~\mathrm{kg\,m^2}}.
+\end{align}
+
+\subsection{Equation of Motion}
+With drag still dominating, the equation for a $90^{\circ}$ rotation is:
+\begin{equation}
+    140 = \left( 3.8 \times \frac{6.28}{t^2} \right) + \frac{90}{t^2} \approx \frac{114}{t^2}.
+\end{equation}
+\begin{equation}
+    t_{\mathrm{min}} = \sqrt{\frac{114}{140}} \approx \mathbf{0.90~\mathrm{s}}.
+\end{equation}
+
+\section{Fluid Dynamics Considerations}
+
+\subsection{Justification of Settling Time}
+
+In high-pressure xenon, the kinematic viscosity is low ($\nu \approx 2.6 \times 10^{-7}$~m$^2$/s), meaning turbulence persists longer than in air. The "Settling Time" ($t_{\mathrm{settle}}$) is justified by the Large Eddy Turnover timescale ($\tau_{\mathrm{eddy}}$).
+
+\begin{equation}
+    \tau_{\mathrm{eddy}} \approx \frac{L}{U} \approx \frac{0.1~\mathrm{m}}{2.0~\mathrm{m/s}} = 0.05~\mathrm{s}.
+\end{equation}
+
+Turbulent energy dissipation typically requires 20 turnover cycles for the wake velocity to decay below 10\% of the initial value (i.e., to drop below the ion drift velocity of $\sim 10$~cm/s).
+\begin{equation}
+    t_{\mathrm{settle}} \approx 20 \times \tau_{\mathrm{eddy}} = 20 \times 0.05 = \mathbf{1.0~\mathrm{s}}.
+\end{equation}
+
+\subsection{Fiducial Volume Efficiency}
+\begin{equation}
+    t_{\mathrm{total}} = 0.90 + 1.0 \approx 1.9~\mathrm{s}.
+\end{equation}
+\begin{equation}
+    Z_{\mathrm{dead}} = 10~\text{cm/s} \times 1.9~\mathrm{s} \approx 19.0~\mathrm{cm}.
+\end{equation}
+\begin{equation}
+    \epsilon_{\mathrm{geo}} = \frac{260 - 19.0}{260} \approx \mathbf{92.7\%}.
+\end{equation}
+
+\section{Conclusion}
+
+The ITACA detector utilizes a Titanium Grade 5 pressure vessel ($\varnothing 3.05 \times 3.10$~m) to house a 15~cm copper-shielded fiducial volume. The MARS system, using a re-entrant magnetic drive and a lightweight, aerodynamic "Aero-Truss" arm (HDPE skin), achieves sub-second positioning ($t \approx 0.9$ s). The active \textbf{Ion Extraction Module} ensures efficient collection of ions across the cathode boundary through a low-voltage (500V to Ground) extraction field.
+
+\end{document}
