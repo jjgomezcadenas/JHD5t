@@ -1,0 +1,242 @@
+% ITACA Detector Design Parameters
+% Auto-generated from itaca_f.jl
+
+\section{Fiducial Volume}
+
+\begin{table}[htbp]
+\centering
+\begin{tabular}{llrl}
+\hline
+\textbf{Parameter} & \textbf{Symbol} & \textbf{Value} & \textbf{Unit} \\
+\hline
+Fiducial diameter & $D_\mathrm{fid}$ & 3.20 & m \\
+Fiducial radius & $R_\mathrm{fid}$ & 160.0 & cm \\
+Drift length (TPC) & $L_\mathrm{TPC}$ & 1.50 & m \\
+Fiducial volume & $V_\mathrm{fid}$ & 12.1 & m$^3$ \\
+Fiducial mass & $m_\mathrm{fid}$ & 1050 & kg (1.05 ton) \\
+\hline
+\end{tabular}
+\caption{Fiducial volume parameters.}
+\label{tab:fiducial}
+\end{table}
+
+\section{Operating Conditions}
+
+\begin{table}[htbp]
+\centering
+\begin{tabular}{llrl}
+\hline
+\textbf{Parameter} & \textbf{Symbol} & \textbf{Value} & \textbf{Unit} \\
+\hline
+Operating pressure & $P$ & 15 & bar \\
+Xenon density & $\rho_\mathrm{Xe}$ & 87.0 & kg/m$^3$ \\
+Temperature & $T$ & 300 & K \\
+Ion species & --- & Xe$_2^+$ & --- \\
+\hline
+\end{tabular}
+\caption{Operating conditions.}
+\label{tab:operating}
+\end{table}
+
+\section{Electric Field \& Drift}
+
+\begin{table}[htbp]
+\centering
+\begin{tabular}{llrl}
+\hline
+\textbf{Parameter} & \textbf{Symbol} & \textbf{Value} & \textbf{Unit} \\
+\hline
+Drift field & $E$ & 300 & V/cm \\
+Ion drift velocity & $v_\mathrm{ion}$ & 15 & cm/s \\
+Electron drift velocity & $v_e$ & 1.0 & mm/$\mu$s \\
+Ion reduced mobility (STP) & $\mu_\mathrm{STP}$ & 0.74 & cm$^2$/V/s \\
+Ion drift time (full) & $t_\mathrm{ion}$ & 10.0 & s \\
+Electron drift time (full) & $t_e$ & 1.5 & ms \\
+\hline
+\end{tabular}
+\caption{Electric field and drift parameters.}
+\label{tab:drift}
+\end{table}
+
+\section{Diffusion}
+
+\begin{table}[htbp]
+\centering
+\begin{tabular}{llrl}
+\hline
+\textbf{Parameter} & \textbf{Symbol} & \textbf{Value} & \textbf{Unit} \\
+\hline
+Ion transverse diffusion ($L=150$~cm) & $\sigma_{T,\mathrm{ion}}$ & $\sim$1.6 & mm \\
+Electron diffusion coefficient & $\sigma_\mathrm{coeff}$ & 3.5 & mm$\times\sqrt{\mathrm{bar/cm}}$ \\
+Electron transverse diffusion ($L=150$~cm, $P=15$~bar) & $\sigma_{T,e}$ & $\sim$11.1 & mm \\
+\hline
+\end{tabular}
+\caption{Diffusion parameters.}
+\label{tab:diffusion}
+\end{table}
+
+\section{Voltages}
+
+\begin{table}[htbp]
+\centering
+\begin{tabular}{llrl}
+\hline
+\textbf{Parameter} & \textbf{Symbol} & \textbf{Value} & \textbf{Unit} \\
+\hline
+Cathode voltage & $V_c$ & 0.5 & kV \\
+FAT-GEM voltage & $V_\mathrm{FATGEM}$ & 15.0 & kV \\
+Electrode 1 (at $L=1.5$~m, $E=300$~V/cm) & $V_1$ & 45.5 & kV \\
+Electrode 2 & $V_2$ & 60.5 & kV \\
+\hline
+\end{tabular}
+\caption{Voltage parameters.}
+\label{tab:voltages}
+\end{table}
+
+\section{Cathode Mesh}
+
+\begin{table}[htbp]
+\centering
+\begin{tabular}{llrl}
+\hline
+\textbf{Parameter} & \textbf{Symbol} & \textbf{Value} & \textbf{Unit} \\
+\hline
+Wire diameter & $w$ & 200 & $\mu$m \\
+Mesh pitch & $M$ & 5 & mm \\
+Transparency & $f$ & 92.2 & \% \\
+\hline
+\end{tabular}
+\caption{Cathode mesh parameters.}
+\label{tab:mesh}
+\end{table}
+
+\section{Radial Structure (center outward)}
+
+\begin{table}[htbp]
+\centering
+\begin{tabular}{lrrl}
+\hline
+\textbf{Component} & \textbf{Thickness} & \textbf{Cumulative $R$} & \textbf{Unit} \\
+\hline
+TPC (fiducial) & --- & 160.0 & cm \\
+BFD (Buffer Field) & 1.0 & 161.0 & cm \\
+Clearances & 1.0 & 162.0 & cm \\
+ICS (Inner Copper Shield) & 15.0 & 177.0 & cm \\
+PV wall & 1.11 & 178.1 & cm \\
+\hline
+\end{tabular}
+\caption{Radial structure from center outward.}
+\label{tab:radial}
+\end{table}
+
+\section{Axial Structure (top to bottom)}
+
+\begin{table}[htbp]
+\centering
+\begin{tabular}{lrl}
+\hline
+\textbf{Component} & \textbf{Thickness} & \textbf{Unit} \\
+\hline
+ICS (top) & 15 & cm \\
+DSP + Light Guide + FAT-GEM & 10 & cm \\
+TPC (drift region) & 150 & cm \\
+Cathode & $\sim$0 & cm \\
+MRS area & 10 & cm \\
+ICS (bottom) & 15 & cm \\
+\hline
+\textbf{Total internal} & \textbf{200} & \textbf{cm} \\
+\hline
+\end{tabular}
+\caption{Axial structure from top to bottom.}
+\label{tab:axial}
+\end{table}
+
+\section{Pressure Vessel (Ti Grade 5)}
+
+\begin{table}[htbp]
+\centering
+\begin{tabular}{llrl}
+\hline
+\textbf{Parameter} & \textbf{Symbol} & \textbf{Value} & \textbf{Unit} \\
+\hline
+Material & --- & Ti-6Al-4V (Grade 5) & --- \\
+Allowable stress & $S$ & 240 & MPa \\
+Joint efficiency & $E_w$ & 1.0 & --- \\
+Inner diameter & $D_i$ & 3.540 & m \\
+Outer diameter & $D_o$ & 3.562 & m \\
+Cylinder wall thickness & $t_\mathrm{cyl}$ & 11.10 & mm \\
+Hemisphere wall thickness & $t_\mathrm{hem}$ & 5.53 & mm \\
+Internal height & $L_i$ & 2.00 & m \\
+External height (with caps) & $L_o$ & 2.01 & m \\
+\hline
+\end{tabular}
+\caption{Pressure vessel dimensions (Ti Grade 5).}
+\label{tab:pv}
+\end{table}
+
+\section{MARS Kinematics}
+
+\begin{table}[htbp]
+\centering
+\begin{tabular}{llrl}
+\hline
+\textbf{Parameter} & \textbf{Symbol} & \textbf{Value} & \textbf{Unit} \\
+\hline
+Arm radius & $R$ & 1.6 & m \\
+Arm linear mass density & $\mu$ & 0.24 & kg/m \\
+Ion plate mass & $m_\mathrm{plate}$ & 0.6 & kg \\
+Motor torque & $\tau_\mathrm{motor}$ & 140 & N$\cdot$m \\
+Rotation angle & $\Delta\theta$ & $\pi/2$ & rad \\
+Gas density & $\rho$ & 87 & kg/m$^3$ \\
+Drag coefficient & $C_d$ & 0.1 & --- \\
+Wake diameter & $d_\mathrm{wake}$ & 9.6 & mm \\
+Settling exponent & $n$ & 1.2 & --- \\
+Rotation time & $t_\mathrm{rot}$ & $\sim$0.42 & s \\
+Settling time ($v_d=0.15$~m/s) & $t_\mathrm{settle}$ & $\sim$0.17 & s \\
+Cycle time & $t_\mathrm{cycle}$ & $\sim$0.59 & s \\
+Dead zone & $Z_\mathrm{dead}$ & $\sim$8.9 & cm \\
+Fiducial efficiency & $\varepsilon_\mathrm{geo}$ & $\sim$94 & \% \\
+\hline
+\end{tabular}
+\caption{MARS kinematics parameters.}
+\label{tab:mars}
+\end{table}
+
+\section{MARS Arm Structural (Ti Grade 5)}
+
+\begin{table}[htbp]
+\centering
+\begin{tabular}{llrl}
+\hline
+\textbf{Parameter} & \textbf{Symbol} & \textbf{Value} & \textbf{Unit} \\
+\hline
+Number of longerons & $N$ & 3 & --- \\
+Tube outer diameter & $d_o$ & 8 & mm \\
+Tube wall thickness & $t_w$ & 0.8 & mm \\
+Longeron positions & $y$ & $[-30, 0, +30]$ & mm \\
+Ti density & $\rho_\mathrm{Ti}$ & 4430 & kg/m$^3$ \\
+Young's modulus & $E_\mathrm{Ti}$ & 114 & GPa \\
+Gravity & $g$ & 9.81 & m/s$^2$ \\
+Ti Gr.5 yield strength & $\sigma_\mathrm{yield}$ & 830 & MPa \\
+Allowable stress (SF=2) & $\sigma_\mathrm{allow}$ & 400 & MPa \\
+\hline
+\end{tabular}
+\caption{MARS arm structural parameters (Ti Grade 5).}
+\label{tab:structural}
+\end{table}
+
+\section{Physical Constants}
+
+\begin{table}[htbp]
+\centering
+\begin{tabular}{llrl}
+\hline
+\textbf{Constant} & \textbf{Symbol} & \textbf{Value} & \textbf{Unit} \\
+\hline
+Boltzmann constant & $k_B$ & $1.380649\times10^{-23}$ & J/K \\
+Elementary charge & $q_e$ & $1.602176634\times10^{-19}$ & C \\
+\hline
+\end{tabular}
+\caption{Physical constants.}
+\label{tab:constants}
+\end{table}

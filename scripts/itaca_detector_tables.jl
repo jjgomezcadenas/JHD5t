@@ -124,12 +124,12 @@ function generate_specific_activities_table()
     # Specific activities (Bq/kg) from MaterialsData.jl
     # Material => (Bi214, Tl208)
     materials = [
-        ("Cu",       12.0e-6,   1.4e-6),
-        ("PTFE",     25.0e-6,   10.0e-6),
-        ("HDPE",     62.0e-6,   8.0e-6),
-        ("Fe316Ti",  1.9e-3,    0.4e-3),
-        ("Ti",       0.93e-3,   0.22e-3),
-        ("Kapton",   1.0e-3,    1.0e-3),
+        ("Cu",       1.20e-6,   1.40e-6),
+        ("PTFE",     0.10e-6,   1.28e-6),
+        ("HDPE",     6.20e-6,   8.00e-6),
+        ("Fe316Ti",  1.90e-3,   4.00e-4),
+        ("Ti",       9.30e-4,   2.20e-4),
+        ("Kapton",   80.0e-6,   110.0e-6),
     ]
 
     push!(lines, "\\begin{table}[htbp]")
@@ -247,9 +247,11 @@ the expected activities from \\textsuperscript{214}Bi (2.448~MeV gamma) and
 The detector geometry consists of:
 \\begin{itemize}
     \\item \\textbf{TPC}: Cylindrical fiducial volume with \\(R = 160\\)~cm, \\(L = 150\\)~cm
-    \\item \\textbf{BFD}: Barrel Field region, 1~cm PTFE shell
+    \\item \\textbf{BFD}: Barrel Field region, 5~mm PTFE shell
     \\item \\textbf{ICS}: Inner Copper Shield, 3--15~cm copper barrel and endcaps
-    \\item \\textbf{DSP}: Dense Silicon Plane, HDPE honeycomb structure (\\(D = 230\\)~cm, 10~cm thick)
+    \\item \\textbf{FC rings}: Field Cage, 10 copper thin rings (\\(R_0 = 159.4\\)~cm mean radius, \\(A = 1.2\\)~cm\\textsuperscript{2} cross-section)
+    \\item \\textbf{Light-Guides}: HDPE honeycomb structure (\\(D = 230\\)~cm, 10~cm thick)
+    \\item \\textbf{FAT-GEM}: HDPE disk with holes (\\(R = 160\\)~cm, 5~mm thick, 6~mm holes at 10~mm pitch)
     \\item \\textbf{SiPM boards}: Kapton boards holding SiPM arrays (\\(D = 320\\)~cm, 0.2~mm thick)
     \\item \\textbf{Cathode}: Fe316Ti wire mesh (200~\\(\\mu\\)m wire, 5~mm pitch)
     \\item \\textbf{MARS}: Ion transport system (Ti longerons, Kapton skin/cables, HDPE ribs)

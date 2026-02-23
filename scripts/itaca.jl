@@ -42,6 +42,93 @@ const ICS_thickness_cm = 3.0       # Inner Copper Shield
 const DSP_LG_FATGEM_cm = 10.0       # DSP + Light Guide + FAT-GEM combined
 const MRS_thickness_cm = 10.0       # MRS area (below cathode)
 
+# ─── Generic Geometry Functions ──────────────────────────────────────────────
+# Reusable functions for computing mass of standard geometric shapes.
+
+"""
+    mass_cylindrical_shell(; R_in, R_out, L, ρ)
+
+Compute mass of a cylindrical shell (barrel without endcaps).
+
+Can be used for: BFD, field cage rings, ICS barrel, etc.
+
+# Arguments
+- `R_in`: Inner radius (m)
+- `R_out`: Outer radius (m)
+- `L`: Length/height of the cylinder (m)
+- `ρ`: Material density (kg/m³)
+
+# Returns
+- Mass in kg
+"""
+function mass_cylindrical_shell(; R_in, R_out, L, ρ)
+    V = π * (R_out^2 - R_in^2) * L
+    return V * ρ
+end
+
+"""
+    mass_disk(; R, t, ρ)
+
+Compute mass of a solid disk (endcap, SiPM board, etc.).
+
+# Arguments
+- `R`: Radius (m)
+- `t`: Thickness (m)
+- `ρ`: Material density (kg/m³)
+
+# Returns
+- Mass in kg
+"""
+function mass_disk(; R, t, ρ)
+    V = π * R^2 * t
+    return V * ρ
+end
+
+"""
+    mass_annular_disk(; R_in, R_out, t, ρ)
+
+Compute mass of an annular disk (ring-shaped endcap with central hole).
+
+# Arguments
+- `R_in`: Inner radius (m)
+- `R_out`: Outer radius (m)
+- `t`: Thickness (m)
+- `ρ`: Material density (kg/m³)
+
+# Returns
+- Mass in kg
+"""
+function mass_annular_disk(; R_in, R_out, t, ρ)
+    V = π * (R_out^2 - R_in^2) * t
+    return V * ρ
+end
+
+"""
+    mass_thin_ring(; R_mean, A, ρ)
+
+Compute mass of a thin ring with uniform cross-section.
+
+For a ring with small cross-section (a ≪ R₀), the volume is simply the
+cross-sectional area times the circumference of the mean circle:
+    V = 2πR₀ × A
+
+This approximation neglects the variation of path length across the cross-section
+(inner edge slightly shorter, outer edge slightly longer), which is a correction
+of order a/R₀ — typically negligible for field cage rings.
+
+# Arguments
+- `R_mean`: Mean radius (m) - distance from ring center to center of cross-section
+- `A`: Cross-sectional area (m²)
+- `ρ`: Material density (kg/m³)
+
+# Returns
+- Mass in kg
+"""
+function mass_thin_ring(; R_mean, A, ρ)
+    V = 2 * π * R_mean * A
+    return V * ρ
+end
+
 # ─── MARS Component Mass Functions ───────────────────────────────────────────
 # These functions return total mass (kg) for MARS components using parameters
 # from mars_pars.jl. Default values match the MARS final design.
@@ -356,21 +443,21 @@ end
 # Specific activities (Bq/kg) - from MaterialsData.jl via JHD5t materials module
 # These are duplicated here for standalone use; the JHD5t module exports them with units
 const SA_Bi214 = Dict(
-    "Fe316Ti" => 1.9e-3,   # Bq/kg
-    "Cu"      => 12.0e-6,  # Bq/kg
-    "PTFE"    => 25.0e-6,  # Bq/kg
-    "HDPE"    => 62.0e-6,  # Bq/kg (Poly)
-    "Kapton"  => 1.0e-3,   # Bq/kg
-    "Ti"      => 0.93e-3,  # Bq/kg
+    "Fe316Ti" => 1.90e-3,   # Bq/kg
+    "Cu"      => 1.20e-6,   # Bq/kg
+    "PTFE"    => 0.10e-6,   # Bq/kg
+    "HDPE"    => 6.20e-6,   # Bq/kg (Poly)
+    "Kapton"  => 80.0e-6,   # Bq/kg
+    "Ti"      => 9.30e-4,   # Bq/kg
 )
 
 const SA_Tl208 = Dict(
-    "Fe316Ti" => 0.4e-3,   # Bq/kg
-    "Cu"      => 1.4e-6,   # Bq/kg
-    "PTFE"    => 10.0e-6,  # Bq/kg
-    "HDPE"    => 8.0e-6,   # Bq/kg (Poly)
-    "Kapton"  => 1.0e-3,   # Bq/kg
-    "Ti"      => 0.22e-3,  # Bq/kg
+    "Fe316Ti" => 4.00e-4,   # Bq/kg
+    "Cu"      => 1.40e-6,   # Bq/kg
+    "PTFE"    => 1.28e-6,   # Bq/kg
+    "HDPE"    => 8.00e-6,   # Bq/kg (Poly)
+    "Kapton"  => 110.0e-6,  # Bq/kg
+    "Ti"      => 2.20e-4,   # Bq/kg
 )
 
 """
@@ -414,23 +501,21 @@ end
 # ─── Per-Component Activity Functions ──────────────────────────────────────
 
 """
-    activity_bfd(; R_in=1.60, R_out=1.61, L=1.70)
+    activity_bfd(; R_in=1.60, R_out=1.605, L=1.70)
 
-Compute activity of the BFD (Barrel Fiber Detector) - PTFE shell.
+Compute activity of the BFD (Barrel Field Detector) - PTFE shell.
 
 # Arguments
 - `R_in`: Inner radius (m), default 1.60 m
-- `R_out`: Outer radius (m), default 1.61 m
+- `R_out`: Outer radius (m), default 1.605 m (5 mm thickness)
 - `L`: Length (m), default 1.70 m
 
 # Returns
 - Named tuple: (mass_kg, bi214_Bq, tl208_Bq, bi214_mBq, tl208_mBq)
 """
-function activity_bfd(; R_in=1.60, R_out=1.61, L=1.70)
-    # Volume of cylindrical shell
-    V = π * (R_out^2 - R_in^2) * L  # m³
+function activity_bfd(; R_in=1.60, R_out=1.605, L=1.70)
     ρ_ptfe = 2000.0  # kg/m³
-    m = V * ρ_ptfe
+    m = mass_cylindrical_shell(; R_in, R_out, L, ρ=ρ_ptfe)
 
     a_bi214 = activity_bi214(m, "PTFE")
     a_tl208 = activity_tl208(m, "PTFE")
@@ -471,12 +556,10 @@ function activity_ics(; R_in=1.61, R_out=1.64, L=1.70, L_endcap=0.03)
     ρ_cu = 8960.0  # kg/m³
 
     # Barrel (cylindrical shell)
-    V_barrel = π * (R_out^2 - R_in^2) * L
-    m_barrel = V_barrel * ρ_cu
+    m_barrel = mass_cylindrical_shell(; R_in, R_out, L, ρ=ρ_cu)
 
     # Endcaps (2 × solid disks)
-    V_endcap = π * R_out^2 * L_endcap
-    m_endcaps = 2 * V_endcap * ρ_cu
+    m_endcaps = 2 * mass_disk(; R=R_out, t=L_endcap, ρ=ρ_cu)
 
     # Total
     m_total = m_barrel + m_endcaps
@@ -719,11 +802,8 @@ The SiPM boards are Kapton disks holding the SiPM arrays.
 """
 function activity_sipm_boards(; D=3.20, t=0.2e-3)
     ρ_kapton = 1420.0  # kg/m³
-
-    # Disk volume and mass
     R = D / 2.0
-    V = π * R^2 * t  # m³
-    m = V * ρ_kapton  # kg
+    m = mass_disk(; R, t, ρ=ρ_kapton)
 
     a_bi214 = activity_bi214(m, "Kapton")
     a_tl208 = activity_tl208(m, "Kapton")
@@ -740,16 +820,121 @@ function activity_sipm_boards(; D=3.20, t=0.2e-3)
 end
 
 """
-    activity_dsp(; D=2.30, L=0.10, d_channel=6e-3, pitch=10e-3)
+    activity_field_cage_rings(; R_mean=1.594, A=1.2e-4, n_rings=10)
 
-Compute activity of the DSP (Dense Silicon Plane) - HDPE honeycomb.
+Compute activity of the field cage copper rings (thin ring model).
+
+The field cage consists of n_rings copper thin rings that shape the electric
+field in the TPC. Each ring is modeled as a circular loop with uniform
+cross-sectional area A and mean radius R_mean.
+
+Geometry (from NEXT design):
+- External diameter: D_ext = 320.0 cm → R_ext = 160.0 cm
+- Radial thickness: ΔR = 1.2 cm
+- Internal radius: R_int = R_ext - ΔR = 158.8 cm
+- Mean radius: R₀ = (R_ext + R_int)/2 = 159.4 cm
+- Cross-sectional shape: rounded rectangle, 10 mm × 8 mm, 1 mm corner radii
+- Cross-sectional area: A = 1.2 cm²
+
+Volume per ring: V = 2πR₀ × A (thin ring approximation, valid for a ≪ R₀)
+
+# Arguments
+- `R_mean`: Mean radius (m), default 1.594 m (159.4 cm)
+- `A`: Cross-sectional area (m²), default 1.2e-4 m² (1.2 cm²)
+- `n_rings`: Number of rings, default 10
+
+# Returns
+- Named tuple with mass and activities
+"""
+function activity_field_cage_rings(; R_mean=1.594, A=1.2e-4, n_rings=10)
+    ρ_cu = 8960.0  # kg/m³
+
+    # Mass of a single thin ring
+    m_single = mass_thin_ring(; R_mean, A, ρ=ρ_cu)
+
+    # Total mass for all rings
+    m_total = n_rings * m_single
+
+    a_bi214 = activity_bi214(m_total, "Cu")
+    a_tl208 = activity_tl208(m_total, "Cu")
+
+    return (
+        R_mean_m = R_mean,
+        A_cm2 = A * 1e4,  # Convert to cm²
+        n_rings = n_rings,
+        mass_single_kg = m_single,
+        mass_kg = m_total,
+        bi214_Bq = a_bi214,
+        tl208_Bq = a_tl208,
+        bi214_mBq = a_bi214 * 1000,
+        tl208_mBq = a_tl208 * 1000
+    )
+end
+
+"""
+    activity_fatgem(; R=1.60, t=5e-3, d_hole=6e-3, pitch=10e-3)
+
+Compute activity of the FAT-GEM (HDPE disk with holes).
+
+The FAT-GEM is a perforated HDPE disk. The fill factor accounts for
+the material removed by the holes (hexagonal hole pattern assumed).
+
+# Arguments
+- `R`: Radius (m), default 1.60 m
+- `t`: Thickness (m), default 5 mm
+- `d_hole`: Hole diameter (m), default 6 mm
+- `pitch`: Hole pitch (m), default 10 mm
+
+# Returns
+- Named tuple with mass and activities
+"""
+function activity_fatgem(; R=1.60, t=5e-3, d_hole=6e-3, pitch=10e-3)
+    ρ_hdpe = ρ_HDPE  # 960 kg/m³ from mars_pars.jl
+
+    # Solid disk mass
+    m_solid = mass_disk(; R, t, ρ=ρ_hdpe)
+
+    # Hole area fraction (hexagonal pattern)
+    # Area of one hole / area per hole in hex pattern
+    A_hole = π * (d_hole/2)^2
+    A_cell = (√3 / 2) * pitch^2  # Hexagonal unit cell area
+    hole_fraction = A_hole / A_cell
+
+    # Fill factor (fraction of solid material)
+    fill_factor = 1.0 - hole_fraction
+
+    # Actual mass
+    m = m_solid * fill_factor
+
+    a_bi214 = activity_bi214(m, "HDPE")
+    a_tl208 = activity_tl208(m, "HDPE")
+
+    return (
+        radius_m = R,
+        thickness_mm = t * 1000,
+        hole_diameter_mm = d_hole * 1000,
+        pitch_mm = pitch * 1000,
+        fill_factor = fill_factor,
+        mass_solid_kg = m_solid,
+        mass_kg = m,
+        bi214_Bq = a_bi214,
+        tl208_Bq = a_tl208,
+        bi214_mBq = a_bi214 * 1000,
+        tl208_mBq = a_tl208 * 1000
+    )
+end
+
+"""
+    activity_light_guides(; D=2.30, L=0.10, d_channel=6e-3, pitch=10e-3)
+
+Compute activity of the Light-Guides - HDPE honeycomb structure.
 
 Uses the honeycomb mass calculation function.
 
 # Returns
 - Named tuple with mass and activities
 """
-function activity_dsp(; D=2.30, L=0.10, d_channel=6e-3, pitch=10e-3)
+function activity_light_guides(; D=2.30, L=0.10, d_channel=6e-3, pitch=10e-3)
     result = mass_dsp_honeycomb(; D, L, d_channel, pitch, ρ=ρ_HDPE)
     m = result.mass_honeycomb
 
@@ -878,19 +1063,23 @@ Compute and return total activity summary for all ITACA detector components.
 function activity_itaca_summary()
     bfd = activity_bfd()
     ics = activity_ics()
-    dsp = activity_dsp()
+    fc_rings = activity_field_cage_rings()
+    light_guides = activity_light_guides()
+    fatgem = activity_fatgem()
     sipm_boards = activity_sipm_boards()
     cathode = activity_cathode()
     mars = activity_mars()
 
-    total_bi214 = bfd.bi214_Bq + ics.bi214_Bq + dsp.bi214_Bq + sipm_boards.bi214_Bq + cathode.bi214_Bq + mars.bi214_Bq
-    total_tl208 = bfd.tl208_Bq + ics.tl208_Bq + dsp.tl208_Bq + sipm_boards.tl208_Bq + cathode.tl208_Bq + mars.tl208_Bq
-    total_mass = bfd.mass_kg + ics.mass_total_kg + dsp.mass_kg + sipm_boards.mass_kg + cathode.mass_kg + mars.mass_total_kg
+    total_bi214 = bfd.bi214_Bq + ics.bi214_Bq + fc_rings.bi214_Bq + light_guides.bi214_Bq + fatgem.bi214_Bq + sipm_boards.bi214_Bq + cathode.bi214_Bq + mars.bi214_Bq
+    total_tl208 = bfd.tl208_Bq + ics.tl208_Bq + fc_rings.tl208_Bq + light_guides.tl208_Bq + fatgem.tl208_Bq + sipm_boards.tl208_Bq + cathode.tl208_Bq + mars.tl208_Bq
+    total_mass = bfd.mass_kg + ics.mass_total_kg + fc_rings.mass_kg + light_guides.mass_kg + fatgem.mass_kg + sipm_boards.mass_kg + cathode.mass_kg + mars.mass_total_kg
 
     return (
         bfd = bfd,
         ics = ics,
-        dsp = dsp,
+        fc_rings = fc_rings,
+        light_guides = light_guides,
+        fatgem = fatgem,
         sipm_boards = sipm_boards,
         cathode = cathode,
         mars = mars,
@@ -924,8 +1113,14 @@ function print_activity_summary()
     @printf("  ICS (barrel+caps)  Cu           %8.2f     %10.4f     %10.4f\n",
             s.ics.mass_total_kg, s.ics.bi214_mBq, s.ics.tl208_mBq)
 
-    @printf("  DSP (honeycomb)    HDPE         %8.2f     %10.4f     %10.4f\n",
-            s.dsp.mass_kg, s.dsp.bi214_mBq, s.dsp.tl208_mBq)
+    @printf("  FC rings (10×)     Cu           %8.2f     %10.4f     %10.4f\n",
+            s.fc_rings.mass_kg, s.fc_rings.bi214_mBq, s.fc_rings.tl208_mBq)
+
+    @printf("  Light-Guides       HDPE         %8.2f     %10.4f     %10.4f\n",
+            s.light_guides.mass_kg, s.light_guides.bi214_mBq, s.light_guides.tl208_mBq)
+
+    @printf("  FAT-GEM            HDPE         %8.2f     %10.4f     %10.4f\n",
+            s.fatgem.mass_kg, s.fatgem.bi214_mBq, s.fatgem.tl208_mBq)
 
     @printf("  SiPM boards        Kapton       %8.4f     %10.4f     %10.4f\n",
             s.sipm_boards.mass_kg, s.sipm_boards.bi214_mBq, s.sipm_boards.tl208_mBq)
@@ -1011,12 +1206,26 @@ function create_activity_dataframe()
     push!(bi214_mBq, ics_full.bi214_mBq)
     push!(tl208_mBq, ics_full.tl208_mBq)
 
-    # DSP
-    push!(components, "DSP")
+    # Field Cage Rings (copper)
+    push!(components, "FC_rings")
+    push!(materials, "Cu")
+    push!(masses, s.fc_rings.mass_kg)
+    push!(bi214_mBq, s.fc_rings.bi214_mBq)
+    push!(tl208_mBq, s.fc_rings.tl208_mBq)
+
+    # Light-Guides
+    push!(components, "Light_Guides")
     push!(materials, "HDPE")
-    push!(masses, s.dsp.mass_kg)
-    push!(bi214_mBq, s.dsp.bi214_mBq)
-    push!(tl208_mBq, s.dsp.tl208_mBq)
+    push!(masses, s.light_guides.mass_kg)
+    push!(bi214_mBq, s.light_guides.bi214_mBq)
+    push!(tl208_mBq, s.light_guides.tl208_mBq)
+
+    # FAT-GEM (HDPE with holes)
+    push!(components, "FAT_GEM")
+    push!(materials, "HDPE")
+    push!(masses, s.fatgem.mass_kg)
+    push!(bi214_mBq, s.fatgem.bi214_mBq)
+    push!(tl208_mBq, s.fatgem.tl208_mBq)
 
     # SiPM boards (Kapton)
     push!(components, "SiPM_boards")
